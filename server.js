@@ -3,40 +3,40 @@ const bodyParser = require("body-parser");
 const graphqlHTTP = require("express-graphql");
 const { buildSchema } = require("graphql");
 const mongoose = require('mongoose');
-
+const schema = require('./schema/schema');
 const Event = require('./model/event');
 const app = express();
 app.use(bodyParser.json());
 
 
-const schema = buildSchema(`
-      type Event {
-            _id: ID!
-            title: String!
-            description: String!
-            price: Float!
-            date: String!
-      }
-      type RootQuery {
-            events: [ Event! ]!
-      }
+// const schema = buildSchema(`
+//       type Event {
+//             _id: ID!
+//             title: String!
+//             description: String!
+//             price: Float!
+//             date: String!
+//       }
+//       type RootQuery {
+//             events: [ Event! ]!
+//       }
 
-      input EventInput {
-            title: String!
-            description: String!
-            price: Float!
-            date: String!
-      }
+//       input EventInput {
+//             title: String!
+//             description: String!
+//             price: Float!
+//             date: String!
+//       }
 
-      type RootMutation {
-            createEvent(eventInput: EventInput): Event
-      }
-      schema {
-            query: RootQuery
-            mutation: RootMutation
-      }
+//       type RootMutation {
+//             createEvent(eventInput: EventInput): Event
+//       }
+//       schema {
+//             query: RootQuery
+//             mutation: RootMutation
+//       }
 
-`);
+// `);
 
 const root = {
   events: () => {
@@ -64,20 +64,23 @@ app.use(
   "/graphql",
   graphqlHTTP({
     schema: schema,
-    rootValue: root,
+//     rootValue: root,
     graphiql: true,
     pretty: true
   })
 );
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD }@cluster0-unydg.mongodb.net/${ process.env.MONGO_DB }?retryWrites=true`)
-.then(()=> {
-      const PORT = process.env.PORT || 3000;
-      app.listen(PORT, () => {
-        console.log(`You are now running on port ${PORT}`);
-      });
+// mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD }@cluster0-unydg.mongodb.net/${ process.env.MONGO_DB }?retryWrites=true`)
+// .then(()=> {
+     
 
-})
-.catch(err => {
-      console.log(err);
-})
+// })
+// .catch(err => {
+//       console.log(err);
+// })
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`You are now running on port ${PORT}`);
+});
