@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const graphqlHTTP = require("express-graphql");
@@ -6,37 +7,21 @@ const mongoose = require('mongoose');
 const schema = require('./schema/schema');
 const Event = require('./model/event');
 const app = express();
+
+
+//Mlab Connection to MongoDb
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+
+const connection = mongoose.connection;
+connection.on('connected', ( ) => {
+console.log('Mongoose Connected Successfully');
+}).catch(err => {
+      console.log(`Mongoose connection error: ${ err }`)
+});
+
 app.use(bodyParser.json());
 
-
-// const schema = buildSchema(`
-//       type Event {
-//             _id: ID!
-//             title: String!
-//             description: String!
-//             price: Float!
-//             date: String!
-//       }
-//       type RootQuery {
-//             events: [ Event! ]!
-//       }
-
-//       input EventInput {
-//             title: String!
-//             description: String!
-//             price: Float!
-//             date: String!
-//       }
-
-//       type RootMutation {
-//             createEvent(eventInput: EventInput): Event
-//       }
-//       schema {
-//             query: RootQuery
-//             mutation: RootMutation
-//       }
-
-// `);
 
 const root = {
   events: () => {
