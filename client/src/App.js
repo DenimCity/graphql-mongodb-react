@@ -6,6 +6,10 @@ import BookList from './components/BookList';
 import AddBook from './components/AddBook';
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
+  onError:({ networkError, graphqlErrors}) => {
+    console.log('--network error ',networkError)
+    console.log('--graphql error ',graphqlErrors)
+  }
 
 })
 class App extends Component {
