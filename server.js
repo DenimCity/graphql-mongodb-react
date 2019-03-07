@@ -5,19 +5,29 @@ const graphqlHTTP = require("express-graphql");
 const { buildSchema } = require("graphql");
 const mongoose = require('mongoose');
 const schema = require('./schema');
+const cors = require('cors');
+
+
+
+
+
 const app = express();
+// allow cross-origin request
+app.use(cors());
 
 
-//Mlab Connection to MongoDb
+//mLab Connection to MongoDb
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
 
 const connection = mongoose.connection;
 connection.on('connected', ( ) => {
-console.log('Mongoose Connected Successfully');
-}).catch(err => {
-      console.log(`Mongoose connection error: ${ err }`)
-});
+  console.log('Mongoose Connected Successfully');
+})
+
+connection.on('error', (error ) => {
+  console.log(`Mongoose Connection interrupted becasue of ${ error }`)
+})
 
 app.use(bodyParser.json());
 
