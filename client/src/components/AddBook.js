@@ -58,7 +58,7 @@ import { getAuthorsQuery, getBooksQuery, addBookMutation } from '../queries/';
                         {this.displayAuthors()}
                   </select>
             </div>
-            <button>+</button>
+            <button className='book-button'>+</button>
       </form>
     )
   }
