@@ -28,7 +28,7 @@ displayBooks = () => {
     return (
       <div>
         <ul id='book-list'>
-        <li>{this.displayBooks()}</li>
+        {this.displayBooks()}
         </ul>
       </div>
     )
